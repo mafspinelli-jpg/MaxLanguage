@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Criar conta · MaxLanguage{% endblock %}
+{% block body %}
+<div class="login">
+  <section class="hero" aria-hidden="true">
+    <span>Olá.</span><span>Hello.</span><span>Hola.</span><span>Bonjour.</span>
+    <p>Crie sua conta e comece a praticar hoje.</p>
+  </section>
+  <section class="box">
+    <h1>Criar conta</h1>
+    {% if mensagem %}
+      <div class="msg err" role="alert">{{ mensagem }}</div>
+    {% endif %}
+    <form method="post">
+      <label>Escolha um código
+        <input type="number" name="codigo" required autofocus>
+      </label>
+      <label>Nome <input type="text" name="nome" required></label>
+      <label>Senha <input type="password" name="senha" required></label>
+      <label>Idioma que deseja aprender
+        <select name="cod_idioma" required>
+          {% for i in idiomas %}
+            <option value="{{ i.codigo }}">{{ i.descricao }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <button class="btn" type="submit">Criar conta</button>
+    </form>
+    <p style="margin-top:1.25rem;">
+      <a href="{{ url_for('login') }}">Já tenho cadastro, voltar para o login</a>
+    </p>
+  </section>
+</div>
+{% endblock %}

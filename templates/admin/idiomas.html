@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Idiomas · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Idiomas</h1>
+<div class="card">
+  <h2>Cadastrar idioma</h2>
+  <form class="grid" method="post" action="{{ url_for('cadastrar_idioma_web') }}">
+    <label>Código <input type="number" name="codigo" required></label>
+    <label>Descrição <input type="text" name="descricao" placeholder="Ex.: Inglês" required></label>
+    <button class="btn" type="submit">Cadastrar idioma</button>
+  </form>
+</div>
+<div class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in idiomas %}
+        <tr>
+          <td>{{ i.codigo }}</td>
+          <td>{{ i.descricao }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="2" class="empty">Nenhum idioma cadastrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

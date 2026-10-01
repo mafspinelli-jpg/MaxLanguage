@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Praticar · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Praticar</h1>
+{% if mensagem %}<div class="msg ok" role="status">{{ mensagem }}</div>{% endif %}
+
+{% if exercicio %}
+<div class="card">
+  <p>Exercício {{ indice + 1 }} de {{ total }} · Nível {{ usuario.nivel_atual }}</p>
+  <p class="enunciado">{{ exercicio.descricao }}</p>
+  <form method="post" action="{{ url_for('praticar', indice=indice) }}">
+    <input type="hidden" name="codigo_exercicio" value="{{ exercicio.cod_exercicio }}">
+    {% for letra in ['A', 'B', 'C', 'D'] %}
+      <label class="opt">
+        <input type="radio" name="resposta" value="{{ letra }}" required>
+        <span><b>{{ letra }}.</b> {{ exercicio.opcoes_resposta[loop.index0] }}</span>
+      </label>
+    {% endfor %}
+    <button class="btn" type="submit">Responder</button>
+  </form>
+</div>
+{% else %}
+<div class="card">
+  {% if total == 0 %}
+    <p class="enunciado">Ainda não há exercícios para o seu nível.</p>
+    <p>Volte mais tarde ou peça ao administrador para cadastrar novos exercícios.</p>
+  {% else %}
+    <p class="enunciado">Você respondeu todos os exercícios disponíveis.</p>
+    <p>Você tem {{ '%.1f'|format(usuario.pontuacao_total) }} pontos e está no nível {{ usuario.nivel_atual }}.</p>
+    <a class="btn" href="{{ url_for('praticar') }}">Recomeçar</a>
+  {% endif %}
+</div>
+{% endif %}
+<a class="btn sec" href="{{ url_for('usuario') }}">Voltar ao meu progresso</a>
+{% endblock %}

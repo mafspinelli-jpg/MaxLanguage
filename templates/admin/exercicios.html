@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Exercícios · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Exercícios</h1>
+<div class="card">
+  <h2>Cadastrar exercício</h2>
+  <form class="grid" method="post" action="{{ url_for('cadastrar_exercicio_web') }}">
+    <label>Código <input type="number" name="codigo" required></label>
+    <label>Lição
+      <select name="cod_licao" required>
+        {% for l in licoes %}
+          <option value="{{ l.cod_licao }}">
+            Lição {{ l.cod_licao }} ({% for i in idiomas if i.codigo == l.cod_idioma %}{{ i.descricao }}{% endfor %})
+          </option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Nível <input type="number" name="nivel" min="1" required></label>
+    <label>Pontuação <input type="number" name="pontuacao" step="any" min="0" required></label>
+    <label class="wide">Enunciado <textarea name="descricao" rows="2" required></textarea></label>
+    <label>Opção A <input type="text" name="opcao_a" required></label>
+    <label>Opção B <input type="text" name="opcao_b" required></label>
+    <label>Opção C <input type="text" name="opcao_c" required></label>
+    <label>Opção D <input type="text" name="opcao_d" required></label>
+    <label>Resposta correta
+      <select name="resposta_correta" required>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+        <option>D</option>
+      </select>
+    </label>
+    <button class="btn" type="submit">Cadastrar exercício</button>
+  </form>
+</div>
+<div class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Lição</th>
+        <th>Idioma</th>
+        <th>Nível</th>
+        <th>Enunciado</th>
+        <th>Pontos</th>
+        <th>Correta</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in exercicios %}
+        <tr>
+          <td>{{ e.cod_exercicio }}</td>
+          <td>{{ e.cod_licao }}</td>
+          <td>
+            {% for l in licoes if l.cod_licao == e.cod_licao %}
+              {% for i in idiomas if i.codigo == l.cod_idioma %}{{ i.descricao }}{% endfor %}
+            {% endfor %}
+          </td>
+          <td>{{ e.nivel_dificuldade }}</td>
+          <td>{{ e.descricao }}</td>
+          <td>{{ e.pontuacao }}</td>
+          <td>{{ e.resposta_correta }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="7" class="empty">Nenhum exercício cadastrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

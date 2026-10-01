@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}MaxLanguage{% endblock %}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if session.get('tipo_acesso') == 'admin' %}
+  <nav>
+    <a class="logo" href="{{ url_for('admin') }}">MaxLanguage</a>
+    <a href="{{ url_for('usuarios') }}">Usuários</a>
+    <a href="{{ url_for('idiomas') }}">Idiomas</a>
+    <a href="{{ url_for('licoes') }}">Lições</a>
+    <a href="{{ url_for('exercicios') }}">Exercícios</a>
+    <a href="{{ url_for('ranking') }}">Ranking</a>
+    <a href="{{ url_for('sair') }}">Sair</a>
+  </nav>
+{% elif session.get('tipo_acesso') == 'usuario' %}
+  <nav>
+    <a class="logo" href="{{ url_for('usuario') }}">MaxLanguage</a>
+    <a href="{{ url_for('usuario') }}">Meu progresso</a>
+    <a href="{{ url_for('praticar') }}">Praticar</a>
+    <a href="{{ url_for('sair') }}">Sair</a>
+  </nav>
+{% endif %}
+
+{% block body %}
+<main>
+  {% set E = {
+    'dados_invalidos': 'Dados inválidos. Confira os campos numéricos.',
+    'usuario_existente': 'Já existe um usuário com esse código.',
+    'idioma_invalido': 'Escolha um idioma cadastrado.',
+    'campos_obrigatorios': 'Preencha nome e senha.',
+    'usuario_nao_encontrado': 'Usuário não encontrado.',
+    'idioma_existente': 'Já existe um idioma com esse código.',
+    'descricao_vazia': 'Preencha a descrição.',
+    'licao_existente': 'Já existe uma lição com esse código.',
+    'total_niveis_invalido': 'O total de níveis deve ser maior que zero.',
+    'exercicio_existente': 'Já existe um exercício com esse código.',
+    'licao_invalida': 'Escolha uma lição cadastrada.',
+    'nivel_invalido': 'O nível deve estar entre 1 e o total de níveis da lição.'
+  } %}
+  {% set S = {
+    'cadastrado': 'Cadastrado com sucesso.',
+    'excluido': 'Excluído com sucesso.'
+  } %}
+
+  {% if request.args.get('erro') %}
+    <div class="msg err" role="alert">
+      {{ E.get(request.args.get('erro'), 'Algo deu errado. Tente novamente.') }}
+    </div>
+  {% endif %}
+
+  {% if request.args.get('sucesso') %}
+    <div class="msg ok" role="status">
+      {{ S.get(request.args.get('sucesso'), 'Feito.') }}
+    </div>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</main>
+{% endblock %}
+</body>
+</html>

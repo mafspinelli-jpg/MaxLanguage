@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Meu progresso · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Olá, {{ usuario.nome }}</h1>
+<div class="stats">
+  <div class="card stat">Idioma<b>{{ idioma }}</b></div>
+  <div class="card stat">Nível<b>{{ usuario.nivel_atual }}</b></div>
+  <div class="card stat">Pontos<b>{{ '%.1f'|format(usuario.pontuacao_total) }}</b></div>
+</div>
+<a class="btn" href="{{ url_for('praticar') }}">Praticar exercícios</a>
+{% if concluiu %}
+<div class="card">
+  <h2>Parabéns! Você concluiu o idioma.</h2>
+  <p>Você atingiu o nível máximo em {{ idioma }}. Seu certificado já está disponível.</p>
+  <a class="btn sec" href="{{ url_for('certificado') }}">Ver certificado</a>
+</div>
+{% endif %}
+{% endblock %}

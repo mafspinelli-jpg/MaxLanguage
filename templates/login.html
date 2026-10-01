@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Entrar · MaxLanguage{% endblock %}
+{% block body %}
+<div class="login">
+  <section class="hero" aria-hidden="true">
+    <span>Olá.</span><span>Hello.</span><span>Hola.</span><span>Bonjour.</span>
+    <p>Aprenda um idioma um exercício por vez.</p>
+  </section>
+  <section class="box">
+    <h1>Entrar</h1>
+    {% if request.args.get('sucesso') == 'cadastrado' %}
+      <div class="msg ok" role="status">Cadastro realizado! Faça login para continuar.</div>
+    {% endif %}
+    {% if mensagem %}
+      <div class="msg err" role="alert">{{ mensagem }}</div>
+    {% endif %}
+    <form method="post">
+      <label>Código <input type="number" name="codigo" required autofocus></label>
+      <label>Senha <input type="password" name="senha" required></label>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+    <p style="margin-top:1.25rem;">
+      <a href="{{ url_for('cadastro') }}">Ainda não tem cadastro? Crie um agora</a>
+    </p>
+  </section>
+</div>
+{% endblock %}

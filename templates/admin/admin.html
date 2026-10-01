@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Painel · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Painel do administrador</h1>
+<div class="menu">
+  <a href="{{ url_for('usuarios') }}">Usuários</a>
+  <a href="{{ url_for('idiomas') }}">Idiomas</a>
+  <a href="{{ url_for('licoes') }}">Lições</a>
+  <a href="{{ url_for('exercicios') }}">Exercícios</a>
+  <a href="{{ url_for('ranking') }}">Ranking</a>
+</div>
+{% endblock %}

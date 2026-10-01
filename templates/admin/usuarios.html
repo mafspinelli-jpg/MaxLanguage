@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Usuários · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Usuários</h1>
+<div class="card">
+  <h2>Cadastrar usuário</h2>
+  <form class="grid" method="post" action="{{ url_for('cadastrar_usuario_web') }}">
+    <label>Código <input type="number" name="codigo" required></label>
+    <label>Nome <input type="text" name="nome" required></label>
+    <label>Senha <input type="password" name="senha" required></label>
+    <label>Idioma de aprendizado
+      <select name="cod_idioma" required>
+        {% for i in idiomas %}
+          <option value="{{ i.codigo }}">{{ i.descricao }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button class="btn" type="submit">Cadastrar usuário</button>
+  </form>
+</div>
+<div class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nome</th>
+        <th>Idioma</th>
+        <th>Nível</th>
+        <th>Pontos</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in usuarios %}
+        <tr>
+          <td>{{ u.codigo }}</td>
+          <td>{{ u.nome }}</td>
+          <td>
+            {% for i in idiomas if i.codigo == u.cod_idioma_aprendizado %}
+              {{ i.descricao }}
+            {% endfor %}
+          </td>
+          <td>{{ u.nivel_atual }}</td>
+          <td>{{ '%.1f'|format(u.pontuacao_total) }}</td>
+          <td>
+            <form method="post" action="{{ url_for('excluir_usuario_web', codigo=u.codigo) }}" onsubmit="return confirm('Excluir este usuário?')">
+              <button class="btn del" type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="6" class="empty">Nenhum usuário cadastrado. Use o formulário acima para criar o primeiro.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

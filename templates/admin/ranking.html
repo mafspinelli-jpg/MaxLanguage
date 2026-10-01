@@ -1,0 +1,36 @@
+O template HTML Jinja2 da página de ranking foi formatado e indentado adequadamente (este arquivo não continha comentários no código original):
+
+```html
+{% extends "base.html" %}
+{% block title %}Ranking · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Ranking</h1>
+<div class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Posição</th>
+        <th>Nome</th>
+        <th>Nível</th>
+        <th>Pontos</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in ranking %}
+        <tr {% if loop.index <= 3 %}class="top"{% endif %}>
+          <td>{{ loop.index }}º</td>
+          <td>{{ u.nome }}</td>
+          <td>{{ u.nivel_atual }}</td>
+          <td>{{ '%.1f'|format(u.pontuacao_total) }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="4" class="empty">Ainda não há usuários no ranking.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+```

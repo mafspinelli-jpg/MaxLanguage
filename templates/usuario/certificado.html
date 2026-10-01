@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Certificado · MaxLanguage{% endblock %}
+{% block content %}
+<div class="certificado">
+  <p class="selo">MaxLanguage · Certificado de Proficiência</p>
+  <h1>Certificamos que</h1>
+  <p class="nome">{{ usuario.nome }}</p>
+  <p class="corpo">
+    concluiu com êxito todos os níveis do curso de <strong>{{ idioma }}</strong>
+    na plataforma MaxLanguage, com pontuação total de
+    <strong>{{ '%.1f'|format(usuario.pontuacao_total) }} pontos</strong>,
+    demonstrando proficiência no idioma estudado.
+  </p>
+  <div class="rodape">
+    <span>Código do aluno: {{ usuario.codigo }}</span>
+    <span>Emitido em {{ data_emissao }}</span>
+  </div>
+</div>
+<p class="no-print" style="text-align:center; margin-top:1.5rem;">
+  <button class="btn" onclick="window.print()">Imprimir certificado</button>
+  <a class="btn sec" href="{{ url_for('usuario') }}">Voltar</a>
+</p>
+{% endblock %}

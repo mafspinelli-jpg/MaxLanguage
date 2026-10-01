@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Lições · MaxLanguage{% endblock %}
+{% block content %}
+<h1>Lições</h1>
+<div class="card">
+  <h2>Cadastrar lição</h2>
+  <form class="grid" method="post" action="{{ url_for('cadastrar_licao_web') }}">
+    <label>Código da lição <input type="number" name="cod_licao" required></label>
+    <label>Idioma
+      <select name="cod_idioma" required>
+        {% for i in idiomas %}
+          <option value="{{ i.codigo }}">{{ i.descricao }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Total de níveis <input type="number" name="total_niveis" min="1" required></label>
+    <button class="btn" type="submit">Cadastrar lição</button>
+  </form>
+</div>
+<div class="card table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Idioma</th>
+        <th>Total de níveis</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for l in licoes %}
+        <tr>
+          <td>{{ l.cod_licao }}</td>
+          <td>
+            {% for i in idiomas if i.codigo == l.cod_idioma %}
+              {{ i.descricao }}
+            {% endfor %}
+          </td>
+          <td>{{ l.total_niveis }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3" class="empty">Nenhuma lição cadastrada.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
